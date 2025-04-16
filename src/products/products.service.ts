@@ -1,4 +1,10 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +13,8 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
+  private readonly logger = new Logger(ProductsService.name);
+
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
@@ -18,8 +26,7 @@ export class ProductsService {
       const savedProduct = await this.productRepository.save(newProduct);
       return savedProduct;
     } catch (error) {
-      console.error('Error creating product:', error);
-      throw new InternalServerErrorException('Failed to create product');
+      this.handleDbExceptions(error);
     }
   }
 
@@ -37,5 +44,17 @@ export class ProductsService {
 
   remove(id: number) {
     return `This action removes a #${id} product`;
+  }
+
+  private handleDbExceptions(error: any) {
+    if (error?.code === '23505') {
+      this.logger.error('Product already exists', error.detail);
+      throw new BadRequestException('Product already exists');
+    }
+
+    this.logger.error(error);
+    throw new InternalServerErrorException(
+      'Unexpected error, check server logs',
+    );
   }
 }

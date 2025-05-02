@@ -96,9 +96,32 @@ export class ProductsService {
 
     const queryRunner = this.dataSource.createQueryRunner();
 
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
     try {
-      return await this.productRepository.save(product);
+      if (images) {
+        await queryRunner.manager.delete(ProductImage, { product: { id } });
+        product.images = images.map((image) =>
+          this.productImageRepository.create({ url: image }),
+        );
+      } else {
+        product.images = await this.productImageRepository.findBy({
+          product: { id },
+        });
+      }
+
+      await queryRunner.manager.save(product);
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+
+      return {
+        ...product,
+        images: product.images.map((image) => image.url),
+      };
     } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
       this.handleDbExceptions(error);
     }
   }

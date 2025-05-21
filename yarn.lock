@@ -5423,7 +5423,7 @@ terser@^5.31.1:
     pg "^8.14.1"
     reflect-metadata "^0.2.2"
     rxjs "^7.8.1"
-    teslo-shop "file:../../../.cache/yarn/v6/npm-teslo-shop-0.0.1-d9682f15-75af-4e56-9ed6-7abfeb19c27a-1747737638174/node_modules/teslo-shop"
+    teslo-shop "file:../../../.cache/yarn/v6/npm-teslo-shop-0.0.1-bf5394f8-aab1-482b-bf42-107a9a074a79-1747824573227/node_modules/teslo-shop"
     typeorm "^0.3.21"
     uuid "^11.1.0"
 
@@ -5699,7 +5699,7 @@ util-deprecate@^1.0.1, util-deprecate@~1.0.1:
 
 uuid@^11.1.0:
   version "11.1.0"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-11.1.0.tgz"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.1.0.tgz#9549028be1753bb934fc96e2bca09bb4105ae912"
   integrity sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==
 
 v8-compile-cache-lib@^3.0.1:

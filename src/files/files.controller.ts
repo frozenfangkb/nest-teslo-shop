@@ -9,6 +9,7 @@ import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { fileFilter } from './helpers/file-filter.helper';
 import { diskStorage } from 'multer';
+import { fileNamer } from './helpers/file-namer.helper';
 
 @Controller('files')
 export class FilesController {
@@ -20,6 +21,7 @@ export class FilesController {
       fileFilter: fileFilter,
       storage: diskStorage({
         destination: './static/uploads',
+        filename: fileNamer,
       }),
     }),
   )
@@ -30,8 +32,10 @@ export class FilesController {
       );
     }
 
+    const secureUrl = `${file.filename}`;
+
     return {
-      fileName: file.originalname,
+      secureUrl,
     };
   }
 }

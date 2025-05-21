@@ -5,7 +5,7 @@ import { fileExistsSync } from 'tsconfig-paths/lib/filesystem';
 @Injectable()
 export class FilesService {
   getStaticProductImage(imageName: string) {
-    const path = join(__dirname, '..', '..', 'static', 'uploads', imageName);
+    const path = join(__dirname, '..', '..', 'static', 'products', imageName);
 
     if (!fileExistsSync(path)) {
       throw new NotFoundException('Image not found');

@@ -60,6 +60,13 @@ export class AuthService {
     };
   }
 
+  checkAuthStatus(user: User) {
+    return {
+      ...omit(user, ['password']),
+      token: this.getJWTToken({ id: user.id }),
+    };
+  }
+
   private getJWTToken(payload: JwtPayload) {
     return this.jwtService.sign(payload);
   }

@@ -7,7 +7,6 @@ import { GetUser } from './decorators/get-user.decorator';
 import { User } from './entities/user.entity';
 import { UserRoleGuard } from './guards/user-role.guard';
 import { RoleProtected } from './decorators/role-protected.decorator';
-import { ValidRoles } from './interfaces/valid-roles';
 
 @Controller('auth')
 export class AuthController {

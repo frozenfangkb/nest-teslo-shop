@@ -31,6 +31,47 @@
 $ yarn install
 ```
 
+## Code Formatting and Import Ordering
+
+This project uses Prettier for code formatting with a configuration that includes import ordering. To enable import ordering, you need to install the following plugin:
+
+```bash
+$ yarn add @trivago/prettier-plugin-sort-imports --dev
+```
+
+After installing the plugin, you can format your code with ordered imports using:
+
+```bash
+$ yarn run format
+```
+
+### Example of Import Ordering
+
+Before:
+```typescript
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from './decorators/get-user.decorator';
+import { User } from './entities/user.entity';
+import { UserRoleGuard } from './guards/user-role.guard';
+```
+
+After:
+```typescript
+import { AuthGuard } from '@nestjs/passport';
+import { Controller, Post, Body, Get, UseGuards } from '@nestjs/common';
+
+import { AuthService } from './auth.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { GetUser } from './decorators/get-user.decorator';
+import { LoginUserDto } from './dto/login-user.dto';
+import { User } from './entities/user.entity';
+import { UserRoleGuard } from './guards/user-role.guard';
+```
+
 ## Compile and run the project
 
 ```bash

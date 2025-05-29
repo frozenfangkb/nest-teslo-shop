@@ -1,6 +1,7 @@
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
+  SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
 import { MessagesWsService } from './messages-ws.service';
@@ -13,10 +14,22 @@ export class MessagesWsGateway
   constructor(private readonly messagesWsService: MessagesWsService) {}
 
   handleDisconnect(client: Socket) {
-    console.log('Client connected', client.id);
+    console.log('Client disconnected', client.id);
+    this.messagesWsService.removeClient(client);
   }
 
   handleConnection(client: Socket) {
-    console.log('Client disconnected', client.id);
+    console.log('Client connected', client.id);
+    this.messagesWsService.registerClient(client);
+    console.log(
+      'Connected clients',
+      this.messagesWsService.getConnectedClients(),
+    );
+  }
+
+  @SubscribeMessage('message')
+  handleMessage(client: Socket, payload: any) {
+    console.log('Message received', payload);
+    client.broadcast.emit('message', payload);
   }
 }
